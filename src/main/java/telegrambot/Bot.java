@@ -23,9 +23,8 @@ public class Bot extends TelegramLongPollingBot {
     private Quiz q;
     private String userName;
     private String token;
-    List<String>config=new GetConfig().readFile("Bot_config");
     private void getUserAndToken(){
-        List<String>config=new GetConfig().readFile("Bot_config");
+        List<String>config=new GetConfig().readFile("Bot_config.txt");
         String first=config.get(0);
         String second=config.get(1);
         userName=first.split("\\{:")[1];
