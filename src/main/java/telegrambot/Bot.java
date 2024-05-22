@@ -97,11 +97,11 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "xxxxx";  // TODO: insert your bot token here!
+        return "6753326363:AAGoGIRK_iDIkilBKW3OVqetDrsUolZErBc";  // TODO: insert your bot token here!
     }
 
     @Override
     public String getBotUsername() {
-        return "xxxxx";  // TODO: insert your bots username here
+        return "JavaFibot";  // TODO: insert your bots username here
     }
 }
