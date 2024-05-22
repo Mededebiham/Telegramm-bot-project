@@ -3,17 +3,23 @@ package telegrambot;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.polls.SendPoll;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import telegrambot.game.BlockGame;
 import telegrambot.quiz.Quiz;
 
-import java.util.HashMap;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
-public class Bot extends TelegramLongPollingBot {
 
+public class Bot extends TelegramLongPollingBot {
+    private Map<Long, BlockGame> gamesblock = new HashMap<>();
+    private boolean startblocgame;
     private Quiz q;
 
     @Override
@@ -33,25 +39,74 @@ public class Bot extends TelegramLongPollingBot {
 
         // 2. quiz mode
         if (messageReceived.toLowerCase().startsWith("quiz")) {
-           q = new Quiz();
-           sendResponse(chatId, q.getRandomQuestion().toString());
+            q = new Quiz();
+            sendResponse(chatId, q.getRandomQuestion().toString());
         }
 
         // 3. create a poll
         if (messageReceived.toLowerCase().startsWith("poll")) {
             sendPollToUser(chatId);
-        } else
+        }
 
-        // 4. analyze the text
-        {
-            sendResponse(chatId, "I counted the letters in your message: " + messageReceived);
-            sendResponse(chatId, countLetters(messageReceived).toString());
+
+
+        else if (messageReceived.equals("startblock")) {
+            sendResponse(chatId, "Willkommen zum Block-Spiel! Senden Sie newgameblock, um ein neues Spiel zu starten.");
+        }
+       else if (messageReceived.equals("newgameblock")) {
+            startNewGameBlock(chatId);
+            startblocgame = true;
+        } else {
+            if (startblocgame) {
+                if(messageReceived.equals("stop")){
+                    startblocgame=false;
+                }
+                else {
+                    try {
+                        int number = Integer.parseInt(messageReceived);
+                        makeMoveblock(chatId, number);
+                    } catch (NumberFormatException e) {
+                        sendResponse(chatId, "Invalid input. Please enter a number less than 10");
+                    }
+
+                }
+
+            } else
+
+            // 4. analyze the text
+            {
+                sendResponse(chatId, "I counted the letters in your message: " + messageReceived);
+                sendResponse(chatId, countLetters(messageReceived).toString());
+            }
+
+        }
+
+
+    }
+
+    private void makeMoveblock(long chatId, int number) {
+        BlockGame game = gamesblock.get(chatId);
+        if (game == null) {
+            startNewGameBlock(chatId);
+            return;
+        }
+
+        if (game.move(number)) {
+            if (game.isSolved()) {
+                sendResponse(chatId, "Congratulations! You solved the puzzle!\n" + game.getBoardString());
+                gamesblock.remove(chatId);
+            } else {
+                sendResponse(chatId, "Moved!\n" + game.getBoardString());
+            }
+        } else {
+            sendResponse(chatId, "Invalid move. Try again.\n" + game.getBoardString());
         }
     }
 
     /**
      * This method counts the letters of a provided string parameter and saves them into a Map which is returned.
      * All letters are converted into lowercase. Digits and other non-letter characters are not counted.
+     *
      * @param input the string to be evaluated
      * @return a map containing the result of
      */
@@ -104,4 +159,23 @@ public class Bot extends TelegramLongPollingBot {
     public String getBotUsername() {
         return "JavaFibot";  // TODO: insert your bots username here
     }
+
+
+
+
+    private void startNewGameBlock(long chatId) {
+        BlockGame game = new BlockGame();
+        gamesblock.put(chatId, game);
+
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(String.valueOf(chatId));
+        sendMessage.setText("New game started!\n" + game.getBoardString());
+
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
