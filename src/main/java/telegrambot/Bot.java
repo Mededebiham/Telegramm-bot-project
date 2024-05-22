@@ -21,6 +21,17 @@ public class Bot extends TelegramLongPollingBot {
     private Map<Long, BlockGame> gamesblock = new HashMap<>();
     private boolean startblocgame;
     private Quiz q;
+    private String userName;
+    private String token;
+    List<String>config=new GetConfig().readFile("Bot_config");
+    private void getUserAndToken(){
+        List<String>config=new GetConfig().readFile("Bot_config");
+        String first=config.get(0);
+        String second=config.get(1);
+        userName=first.split("\\{:")[1];
+        token=second.split("\\{:")[1];
+
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -152,12 +163,14 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "6753326363:AAGoGIRK_iDIkilBKW3OVqetDrsUolZErBc";  // TODO: insert your bot token here!
+        getUserAndToken();
+        return token;  // TODO: insert your bot token here!
     }
 
     @Override
     public String getBotUsername() {
-        return "JavaFibot";  // TODO: insert your bots username here
+        getUserAndToken();
+        return userName;  // TODO: insert your bots username here
     }
 
 
