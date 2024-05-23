@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class StoringTellingBot extends TelegramLongPollingBot {
     private Map<Long, StoryState> userStoryStates = new HashMap<>();
-    private GetConfig getConfig=new GetConfig("Bot_config");
+    private GetConfig getConfig=new GetConfig("config.txt");
     private String previousMessage;
     @Override
     public void onUpdateReceived(Update update) {

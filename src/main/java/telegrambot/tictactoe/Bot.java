@@ -17,7 +17,7 @@ public class Bot extends TelegramLongPollingBot {
     private Map<Long, BlockGame> gamesblock = new HashMap<>();
     private boolean startblocgame;
     private Quiz q;
-    private GetConfig getConfig=new GetConfig("Bot_config");
+    private GetConfig getConfig=new GetConfig("config.txt");
 
     @Override
     public void onUpdateReceived(Update update) {

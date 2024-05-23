@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import telegrambot.GetConfig;
 
 public class MysteryDetectiveBot extends TelegramLongPollingBot {
-    private GetConfig getConfig=new GetConfig("Bot_config");
+    private GetConfig getConfig=new GetConfig("config.txt");
     private String currentScenario = "stolen_painting";
     private Scenario scenario = ScenarioRepository.getScenario(currentScenario);
 

@@ -29,8 +29,8 @@ public class TrivialBot extends TelegramLongPollingBot {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        this.botUsername=(new GetConfig("Bot_config")).getUserName();
-        this.botToken=(new GetConfig("Bot_config")).getToken();
+        this.botUsername=(new GetConfig("config.txt")).getUserName();
+        this.botToken=(new GetConfig("config.txt")).getToken();
     }
 
     @Override
