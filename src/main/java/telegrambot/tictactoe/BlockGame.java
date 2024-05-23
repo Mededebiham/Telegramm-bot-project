@@ -1,4 +1,4 @@
-package telegrambot.game;
+package telegrambot.tictactoe;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
