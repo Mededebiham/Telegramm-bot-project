@@ -21,16 +21,7 @@ public class Bot extends TelegramLongPollingBot {
     private Map<Long, BlockGame> gamesblock = new HashMap<>();
     private boolean startblocgame;
     private Quiz q;
-    private String userName;
-    private String token;
-    private void getUserAndToken(){
-        List<String>config=new GetConfig().readFile("Bot_config");
-        String first=config.get(0);
-        String second=config.get(1);
-        userName=first.split("\\{:")[1];
-        token=second.split("\\{:")[1];
-
-    }
+    private GetConfig getConfig=new GetConfig("Bot_config");
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -60,10 +51,10 @@ public class Bot extends TelegramLongPollingBot {
 
 
 
-        else if (messageReceived.equals("startblock")) {
-            sendResponse(chatId, "Willkommen zum Block-Spiel! Senden Sie newgameblock, um ein neues Spiel zu starten.");
+        else if (messageReceived.equals("start")) {
+            sendResponse(chatId, "Willkommen zum Block-Spiel! Senden Sie new game, um ein neues Spiel zu starten.");
         }
-       else if (messageReceived.equals("newgameblock")) {
+       else if (messageReceived.equals("new game")) {
             startNewGameBlock(chatId);
             startblocgame = true;
         } else {
@@ -162,14 +153,14 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        getUserAndToken();
-        return token;  // TODO: insert your bot token here!
+        return getConfig.getToken();
     }
 
     @Override
     public String getBotUsername() {
-        getUserAndToken();
-        return userName;  // TODO: insert your bots username here
+       
+
+        return getConfig.getUserName();
     }
 
 
