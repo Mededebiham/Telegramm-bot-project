@@ -6,7 +6,17 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 public class WeatherBotTest {
     public static void main(String[] args) throws TelegramApiException {
-        TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-        botsApi.registerBot(new WeatherBot());
+        WeatherBot bot=new WeatherBot();
+        bot.startBot();
+        new Thread(() -> {
+            while (bot.isRunning()) {
+                try {
+                    Thread.sleep(1000); // Check every second
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+            bot.stopBot();
+        }).start();
     }
 }

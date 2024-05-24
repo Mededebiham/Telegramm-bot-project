@@ -2,6 +2,7 @@ package telegrambot;
 
 import kotlin.random.Random;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -14,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import telegrambot.APiKey.MovieBot;
 import telegrambot.APiKey.WeatherBot;
 import telegrambot.detectivgame.MysteryDetectiveBot;
@@ -22,6 +24,9 @@ import telegrambot.tictactoe.Bot;
 import telegrambot.trivialchalenge.TrivialBot;
 
 public class GlobalBot extends TelegramLongPollingBot {
+    private boolean getstart;
+    private TelegramBotsApi botsApi;
+    public boolean running = true;
     private TrivialBot trivialbot = new TrivialBot();
     private Bot bot = new Bot();
     private StoringTellingBot storingTellingBot = new StoringTellingBot();
@@ -215,6 +220,26 @@ public class GlobalBot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
+    public void stopBot() {
 
+        // Shutdown the application
+        System.exit(0);
+    }
+    public void startBot() {
+        try {
+            botsApi = new TelegramBotsApi(DefaultBotSession.class);
+            botsApi.registerBot(this);
+            System.out.println("Bot started successfully.");
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public boolean isGetstart() {
+        return getstart;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
 }

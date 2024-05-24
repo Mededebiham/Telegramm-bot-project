@@ -92,7 +92,7 @@ public class StoryState {
                 correctInput=true;
             } else {
                 correctInput=false;
-                response = "invalid choise. Please enter start to begin";
+                response = "invalid choise. Please enter start to begin or stop to cancel or /quit to stop bot";
             }
 
         }

@@ -1,12 +1,20 @@
 package telegrambot.APiKey;
-
-import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+
 
 public class MoovibotTest {
     public static void main(String[] args) throws TelegramApiException {
-        TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-        botsApi.registerBot(new MovieBot());
+        MovieBot bot=new MovieBot();
+        bot.startBot();
+        new Thread(() -> {
+            while (bot.isRunning()) {
+                try {
+                    Thread.sleep(1000); // Check every second
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+            bot.stopBot();
+        }).start();
     }
 }

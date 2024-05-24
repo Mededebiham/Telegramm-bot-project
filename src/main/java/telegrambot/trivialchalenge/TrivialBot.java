@@ -14,6 +14,8 @@ import java.util.Map;
 public class TrivialBot extends TelegramLongPollingBot {
     private String botUsername = "YOUR_BOT_USERNAME";
     private String botToken = "YOUR_BOT_TOKEN";
+    private boolean getstart;
+    public boolean running = true;
 
     private Map<Long, Integer> userScores = new HashMap<>();
     private Map<Long, String> currentQuestions = new HashMap<>();
@@ -31,8 +33,18 @@ public class TrivialBot extends TelegramLongPollingBot {
         }
         this.botUsername=(new GetConfig("config.txt")).getUserName();
         this.botToken=(new GetConfig("config.txt")).getToken();
+        sendStartupMessage();
     }
-
+    private void sendStartupMessage() {
+        SendMessage message = new SendMessage();
+        message.setChatId("7163912977");
+        message.setText("hello and welcome in Trivial challenge. please type /start to beginn or /quit to stop bot");
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public String getBotUsername() {
         return botUsername;
@@ -48,26 +60,53 @@ public class TrivialBot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             long chatId = update.getMessage().getChatId();
             String messageText = update.getMessage().getText();
+            if(getstart){
+                if (messageText.equalsIgnoreCase("/start")) {
+                    sendWelcomeMessage(chatId);
+                } else if (messageText.equalsIgnoreCase("/score")) {
+                    sendScore(chatId);
+                } else if (messageText.equalsIgnoreCase("/next")) {
+                    askQuestion(chatId, null);
+                } else if (messageText.startsWith("/category ")) {
+                    String category = messageText.substring(9).trim();
+                    askQuestion(chatId, category);
+                } else if (messageText.equalsIgnoreCase("/categories")) {
+                    listCategories(chatId);
+                }
+                else if (messageText.equalsIgnoreCase("/cancel")) {
+                    sendStartupMessage();
+                    getstart=false;
+                }
+                else if (messageText.equalsIgnoreCase("/quit")) {
+                    sendMessage(chatId, "Bot is stopping: Goodbye!");
+                    stopBot();
+                } else {
+                    handleUserResponse(chatId, messageText);
+                }
 
-            if (messageText.equalsIgnoreCase("start")) {
-                sendWelcomeMessage(chatId);
-            } else if (messageText.equalsIgnoreCase("score")) {
-                sendScore(chatId);
-            } else if (messageText.equalsIgnoreCase("next")) {
-                askQuestion(chatId, null);
-            } else if (messageText.startsWith("category ")) {
-                String category = messageText.substring(9).trim();
-                askQuestion(chatId, category);
-            } else if (messageText.equalsIgnoreCase("categories")) {
-                listCategories(chatId);
-            } else {
-                handleUserResponse(chatId, messageText);
             }
+            else{
+                if(messageText.equals("/start")){
+                    sendWelcomeMessage(chatId);
+                    getstart = true;
+                }
+                else if (messageText.equals("/quit")) {
+                    sendMessage(chatId, "Bot is stopping: Goodbye!");
+                    stopBot();
+                }
+                else{
+                    sendMessage(chatId, "in valide choice. type /start  to begin or /quit to stop bot");
+                }
+            }
+
+
         }
     }
 
     private void sendWelcomeMessage(long chatId) {
-        sendMessage(chatId, "Welcome to Trivia Challenge! Type next to get a question, or category <category> to get a question from a specific category. Type categories to see the list of available categories. Type score to check your score.");
+        sendMessage(chatId, "Welcome to Trivia Challenge! Type /next to get a question, or /category <category> to get " +
+                "a question from a specific category. Type /categories to see the list of available categories. Type /score to check your score." +
+                "type /cancel to return to menu, type /quit to stop bot ");
     }
 
     private void sendScore(long chatId) {
@@ -139,7 +178,8 @@ public class TrivialBot extends TelegramLongPollingBot {
             currentAnswers.remove(chatId);
             currentOptions.remove(chatId);
         } else {
-            sendMessage(chatId, "Please ask for a question by typing /next or /category <category>.");
+            sendMessage(chatId, "Invalid choice. Type /next to get a question, /category <category> to get a question from a specific category, " +
+                                     "/categories to see the list of available categories, /score to check your score, /cancel to return to menu, /quit to stop bot");
         }
     }
 
@@ -169,6 +209,28 @@ public class TrivialBot extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+    }
+    public void stopBot() {
+
+        // Shutdown the application
+        System.exit(0);
+    }
+    public void startBot() {
+        try {
+            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+            botsApi.registerBot(this);
+            System.out.println("Bot started successfully.");
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isGetstart() {
+        return getstart;
+    }
+
+    public boolean isRunning() {
+        return running;
     }
 
 }

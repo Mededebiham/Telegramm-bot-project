@@ -4,16 +4,24 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import telegrambot.GetConfig;
 
 public class MovieBot extends TelegramLongPollingBot {
     private final String TMDB_API_KEY = "8fb16d4f7e76a2e6e0f952ee0918b5e9";
+    private boolean getstart;
+    private TelegramBotsApi botsApi;
+    public boolean running = true;
+    public MovieBot(){
+        sendStartupMessage();
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -22,21 +30,64 @@ public class MovieBot extends TelegramLongPollingBot {
             String chatId = message.getChatId().toString();
             String text = message.getText();
 
-            if (text.startsWith("/movie")) {
-                String query = text.replace("/movie", "").trim();
-                String movieInfo = getMovieInfo(query);
-                sendResponse(chatId, movieInfo);
-            } else if (text.startsWith("/actor")) {
-                String actor = text.replace("/actor", "").trim();
-                String actorMovies = getMoviesByActor(actor);
-                sendResponse(chatId, actorMovies);
-            } else if (text.startsWith("/title")) {
-                String title = text.replace("/title", "").trim();
-                String titleMovies = getMoviesByTitle(title);
-                sendResponse(chatId, titleMovies);
-            } else {
-                sendResponse(chatId, "Commande non reconnue.\nUtilisez /movie <titre du film> pour rechercher un film.\nUtilisez /actor <nom de l'acteur> pour rechercher des films par acteur.\nUtilisez /title <mot-clé> pour rechercher des films par titre.");
+            if(getstart){
+                if (text.startsWith("/movie")) {
+                    String query = text.replace("/movie", "").trim();
+                    String movieInfo = getMovieInfo(query);
+                    sendResponse(chatId, movieInfo);
+                } else if (text.startsWith("/actor")) {
+                    String actor = text.replace("/actor", "").trim();
+                    String actorMovies = getMoviesByActor(actor);
+                    sendResponse(chatId, actorMovies);
+                } else if (text.startsWith("/title")) {
+                    String title = text.replace("/title", "").trim();
+                    String titleMovies = getMoviesByTitle(title);
+                    sendResponse(chatId, titleMovies);
+                }
+                else if (text.equals("/cancel")) {
+                   sendStartupMessage();
+                    getstart=false;
+
+
+                }
+                else if (text.equals("/quit")) {
+                    sendResponse(chatId, "Bot is stopping: Goodbye!");
+                    stopBot();
+
+                }else {
+                    sendResponse(chatId, "Invalid choice. type /movie <Title> to search film by Title, " +
+                            "/actor <name of actor> to search fim by actor, /title <keyword> to search " +
+                            "for movies by title. /cancel to quit game and return to menu. /quit to stop bot");
+                }
+
             }
+            else{
+                if (text.equals("/start")) {
+                    sendResponse(chatId, "now  type /movie <Title> to search film by Title, " +
+                            "/actor <name of actor> to search fim by actor, /title <keyword> to search " +
+                            "for movies by title. /cancel to quit game and return to menu. /quit to stop bot");
+                    getstart=true;
+
+                }
+                else if (text.equals("/quit")) {
+                    sendResponse(chatId, "Bot is stopping: Goodbye!");
+                    stopBot();
+
+                }else {
+                    sendResponse(chatId, "in valide choice. type /start  to begin");
+                }
+            }
+
+        }
+    }
+    private void sendStartupMessage() {
+        SendMessage message = new SendMessage();
+        message.setChatId("7163912977");
+        message.setText("hello and welcome in  Movie Bot. please type /start to beginn");
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 
@@ -152,7 +203,20 @@ public class MovieBot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
+    public void stopBot() {
 
+        // Shutdown the application
+        System.exit(0);
+    }
+    public void startBot() {
+        try {
+            botsApi = new TelegramBotsApi(DefaultBotSession.class);
+            botsApi.registerBot(this);
+            System.out.println("Bot started successfully.");
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public String getBotUsername() {
         return new GetConfig("config.txt").getUserName();
@@ -163,5 +227,16 @@ public class MovieBot extends TelegramLongPollingBot {
         return new GetConfig("config.txt").getToken();
     }
 
+    public boolean isGetstart() {
+        return getstart;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+    private void sendWelcomeMessage(long chatId) {
+        sendResponse(String.valueOf(chatId), "hello and welcome in  Movie Bot! Type /start to begin, /cancel to get start or /quit to stop  bot." +
+                " type /Where were you  to get position, /clues to get clues and /solution to get solution");
+    }
 
 }
