@@ -15,6 +15,7 @@ public class MysteryDetectiveBot extends TelegramLongPollingBot {
     private boolean getstart;
     private TelegramBotsApi botsApi;
     public boolean running = true;
+    public boolean getMain_Menu;
 
     public MysteryDetectiveBot() {
         sendStartupMessage();
@@ -26,6 +27,7 @@ public class MysteryDetectiveBot extends TelegramLongPollingBot {
         String messageReceived = update.getMessage().getText();
         System.out.println(messageReceived);
         if (getstart) {
+            getMain_Menu=false;
             if (messageReceived.equalsIgnoreCase("/start")) {
                 sendMessage(chatId, "Welcome to Mystery Detectiv! Type /start to begin, or /quit to stop  bot" +
                         " type /Where were you  to get position, /clues to get clues and /solution to get solution");
@@ -34,6 +36,12 @@ public class MysteryDetectiveBot extends TelegramLongPollingBot {
             else if (messageReceived.equals("/quit")) {
                 sendMessage(chatId, "Bot is stopping: Goodbye!");
                 stopBot();
+            }
+            else if (messageReceived.equalsIgnoreCase("/main_menu")) {
+                getstart=false;
+                getMain_Menu=true;
+                sendMessage(chatId, "you go back to main menu!" +
+                        "typ /yes to back Main menu, /no to continue /quit to close bot");
             }
             else if (messageReceived.equals("/cancel")) {
                 sendStartupMessage();
@@ -59,7 +67,13 @@ public class MysteryDetectiveBot extends TelegramLongPollingBot {
                 sendWelcomeMessage(chatId);
                 scenario.getDescription();
                 getstart = true;
-            } else if (messageReceived.equals("/quit")) {
+            }
+            else if (messageReceived.equalsIgnoreCase("/main_menu")) {
+                getstart=false;
+                getMain_Menu=true;
+                sendMessage(chatId, "you go back to main menu!" +
+                        "typ /yes to back Main menu, /no to continue /quit to close bot");
+            }else if (messageReceived.equals("/quit")) {
                 sendMessage(chatId, "Bot is stopping: Goodbye!");
                 stopBot();
             } else {
@@ -126,6 +140,7 @@ public class MysteryDetectiveBot extends TelegramLongPollingBot {
         }
     }
 
+
     private void sendWelcomeMessage(long chatId) {
         sendMessage(chatId, "Welcome to Mystery Detectiv! Type /start to begin, /cancel to get start or /quit to stop  bot." +
                 " type /Where were you  to get position, /clues to get clues and /solution to get solution");
@@ -153,6 +168,8 @@ public class MysteryDetectiveBot extends TelegramLongPollingBot {
     public boolean isRunning() {
         return running;
     }
-
+    public void setGetstart(boolean getstart) {
+        this.getstart = getstart;
+    }
 }
 

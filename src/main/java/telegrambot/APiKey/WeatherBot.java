@@ -26,6 +26,7 @@ public class WeatherBot extends TelegramLongPollingBot {
     private boolean getstart;
     private TelegramBotsApi botsApi;
     public boolean running = true;
+    public boolean getMain_Menu;
 
     public WeatherBot() {
         sendStartupMessage();
@@ -38,6 +39,7 @@ public class WeatherBot extends TelegramLongPollingBot {
             Message message = update.getMessage();
             String chatId = message.getChatId().toString();
             if (getstart) {
+                getMain_Menu=false;
                 if (message.hasText()) {
                     String text = message.getText();
                     if (text.startsWith("/weather")) {
@@ -53,6 +55,12 @@ public class WeatherBot extends TelegramLongPollingBot {
                         sendResponse(chatId, "Bot is stopping: Goodbye!");
                         stopBot();
 
+                    }
+                    else if (message.getText().equalsIgnoreCase("/main_menu")) {
+                        getstart=false;
+                        getMain_Menu=true;
+                        sendResponse(chatId, "you go back to main menu!" +
+                                "typ /yes to back Main menu, /no to continue /quit to close bot");
                     }
                     else if (message.getText().equals("/cancel")) {
                         sendStartupMessage();
@@ -74,7 +82,13 @@ public class WeatherBot extends TelegramLongPollingBot {
                             "or /quit to stop bot or /cancel to begin");
                     getstart = true;
 
-                } else if (message.getText().equals("/quit")) {
+                }
+                else if (message.getText().equalsIgnoreCase("/main_menu")) {
+                    getstart=false;
+                    getMain_Menu=true;
+                    sendResponse(chatId, "you go back to main menu!" +
+                            "typ /yes to back Main menu, /no to continue /quit to close bot");
+                }else if (message.getText().equals("/quit")) {
                     sendResponse(chatId, "Bot is stopping: Goodbye!");
                     stopBot();
 
@@ -224,7 +238,9 @@ public class WeatherBot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
-
+    public void setGetstart(boolean getstart) {
+        this.getstart = getstart;
+    }
         public boolean isGetstart () {
             return getstart;
         }

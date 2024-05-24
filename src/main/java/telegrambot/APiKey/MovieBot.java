@@ -19,6 +19,7 @@ public class MovieBot extends TelegramLongPollingBot {
     private boolean getstart;
     private TelegramBotsApi botsApi;
     public boolean running = true;
+    public boolean getMain_Menu;
     public MovieBot(){
         sendStartupMessage();
     }
@@ -31,6 +32,7 @@ public class MovieBot extends TelegramLongPollingBot {
             String text = message.getText();
 
             if(getstart){
+                getMain_Menu=false;
                 if (text.startsWith("/movie")) {
                     String query = text.replace("/movie", "").trim();
                     String movieInfo = getMovieInfo(query);
@@ -50,6 +52,12 @@ public class MovieBot extends TelegramLongPollingBot {
 
 
                 }
+                else if (text.equalsIgnoreCase("/main_menu")) {
+                    getstart=false;
+                    getMain_Menu=true;
+                    sendResponse(chatId, "you go back to main menu!" +
+                            "typ /yes to back Main menu, /no to continue /quit to close bot");
+                }
                 else if (text.equals("/quit")) {
                     sendResponse(chatId, "Bot is stopping: Goodbye!");
                     stopBot();
@@ -68,6 +76,12 @@ public class MovieBot extends TelegramLongPollingBot {
                             "for movies by title. /cancel to quit game and return to menu. /quit to stop bot");
                     getstart=true;
 
+                }
+                else if (text.equalsIgnoreCase("/main_menu")) {
+                    getstart=false;
+                    getMain_Menu=true;
+                    sendResponse(chatId, "you go back to main menu!" +
+                            "typ /yes to back Main menu, /no to continue /quit to close bot");
                 }
                 else if (text.equals("/quit")) {
                     sendResponse(chatId, "Bot is stopping: Goodbye!");
@@ -229,6 +243,10 @@ public class MovieBot extends TelegramLongPollingBot {
 
     public boolean isGetstart() {
         return getstart;
+    }
+
+    public void setGetstart(boolean getstart) {
+        this.getstart = getstart;
     }
 
     public boolean isRunning() {

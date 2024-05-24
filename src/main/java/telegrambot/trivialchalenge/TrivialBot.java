@@ -16,6 +16,7 @@ public class TrivialBot extends TelegramLongPollingBot {
     private String botToken = "YOUR_BOT_TOKEN";
     private boolean getstart;
     public boolean running = true;
+    public boolean getMain_Menu;
 
     private Map<Long, Integer> userScores = new HashMap<>();
     private Map<Long, String> currentQuestions = new HashMap<>();
@@ -61,6 +62,7 @@ public class TrivialBot extends TelegramLongPollingBot {
             long chatId = update.getMessage().getChatId();
             String messageText = update.getMessage().getText();
             if(getstart){
+                getMain_Menu=false;
                 if (messageText.equalsIgnoreCase("/start")) {
                     sendWelcomeMessage(chatId);
                 } else if (messageText.equalsIgnoreCase("/score")) {
@@ -80,6 +82,11 @@ public class TrivialBot extends TelegramLongPollingBot {
                 else if (messageText.equalsIgnoreCase("/quit")) {
                     sendMessage(chatId, "Bot is stopping: Goodbye!");
                     stopBot();
+                }
+                else if (messageText.equalsIgnoreCase("/main_menu")) {
+                    getMain_Menu=true;
+                    sendMessage(chatId, "you go back to main menu!" +
+                            "typ /yes to back Main menu, /no to continue /quit to close bot");
                 } else {
                     handleUserResponse(chatId, messageText);
                 }
@@ -93,6 +100,11 @@ public class TrivialBot extends TelegramLongPollingBot {
                 else if (messageText.equals("/quit")) {
                     sendMessage(chatId, "Bot is stopping: Goodbye!");
                     stopBot();
+                }
+                else if (messageText.equalsIgnoreCase("/main_menu")) {
+                    getMain_Menu=true;
+                    sendMessage(chatId, "you go back to main menu!" +
+                            "typ /yes to back Main menu, /no to continue /quit to close bot");
                 }
                 else{
                     sendMessage(chatId, "in valide choice. type /start  to begin or /quit to stop bot");
@@ -231,6 +243,9 @@ public class TrivialBot extends TelegramLongPollingBot {
 
     public boolean isRunning() {
         return running;
+    }
+    public void setGetstart(boolean getstart) {
+        this.getstart = getstart;
     }
 
 }

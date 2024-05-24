@@ -19,6 +19,7 @@ public class StoringTellingBot extends TelegramLongPollingBot {
     private boolean getstart;
     private TelegramBotsApi botsApi;
     public boolean running = true;
+    public boolean getMain_Menu;
     public StoringTellingBot()
     {
         sendStartupMessage();
@@ -29,8 +30,15 @@ public class StoringTellingBot extends TelegramLongPollingBot {
         String messageReceived = update.getMessage().getText();
         System.out.println(messageReceived);
         if(getstart){
+            getMain_Menu=false;
             if(messageReceived.equals("/quit")){
                stopBot();
+            }
+            else if (messageReceived.equalsIgnoreCase("/main_menu")) {
+                getstart=false;
+                getMain_Menu=true;
+                sendMessage(chatId, "you go back to main menu!" +
+                        "typ /yes to back Main menu, /no to continue /quit to close bot");
             }
             else if(messageReceived.equals("/cancel")){
                 getstart=false;
@@ -62,6 +70,12 @@ public class StoringTellingBot extends TelegramLongPollingBot {
             if(messageReceived.equals("/start")){
                 sendWelcomeMessage(chatId);
                 getstart = true;
+            }
+            else if (messageReceived.equalsIgnoreCase("/main_menu")) {
+                getstart=false;
+                getMain_Menu=true;
+                sendMessage(chatId, "you go back to main menu!" +
+                        "typ /yes to back Main menu, /no to continue /quit to close bot");
             }
             else if (messageReceived.equals("/quit")) {
                 sendMessage(chatId, "Bot is stopping: Goodbye!");
@@ -132,5 +146,8 @@ public class StoringTellingBot extends TelegramLongPollingBot {
 
     public boolean isRunning() {
         return running;
+    }
+    public void setGetstart(boolean getstart) {
+        this.getstart = getstart;
     }
 }
