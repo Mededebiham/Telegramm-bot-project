@@ -3,9 +3,10 @@ package telegrambot.tictactoe;
 import java.util.List;
 import java.util.Random;
 
+@SuppressWarnings("ALL")
 public class Quiz {
-    private List<Question> questionsList = this.initQuestions();
-    private int score = 0;
+    private final List<Question> questionsList = this.initQuestions();
+    private final int score = 0;
 
     public Quiz() {
     }
@@ -29,6 +30,6 @@ public class Quiz {
     public Question getRandomQuestion() {
         Random r = new Random();
         int index = r.nextInt(0, this.questionsList.size());
-        return (Question) this.questionsList.get(index);
+        return this.questionsList.get(index);
     }
 }

@@ -1,6 +1,8 @@
 package telegrambot.detectivgame;
+
 import java.util.Map;
 
+@SuppressWarnings("ALL")
 public class Scenario {
     private String description;
     private Map<String, Suspect> suspects;

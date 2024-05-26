@@ -3,6 +3,7 @@ package telegrambot.detectivgame;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("ALL")
 public class ScenarioRepository {
     private static Map<String, Scenario> scenarios = new HashMap<>();
 

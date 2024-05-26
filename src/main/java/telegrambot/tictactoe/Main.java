@@ -1,13 +1,11 @@
 package telegrambot.tictactoe;
 
-import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
-import telegrambot.APiKey.MovieBot;
 
+@SuppressWarnings("ALL")
 public class Main {
     public static void main(String[] args) throws TelegramApiException {
-         Bot bot=new Bot();
+        Bot bot = new Bot();
         bot.startBot();
         new Thread(() -> {
             while (bot.isRunning()) {

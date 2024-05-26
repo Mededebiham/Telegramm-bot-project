@@ -1,9 +1,11 @@
 package telegrambot.trivialchalenge;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+@SuppressWarnings("ALL")
 public class DatabaseManager {
 
     private static final String DB_URL = "jdbc:sqlite:trivia.db";

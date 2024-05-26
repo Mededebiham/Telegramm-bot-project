@@ -17,9 +17,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
+@SuppressWarnings("ALL")
 public class CheckersBot extends TelegramLongPollingBot {
 
-    private char[][] board = new char[8][8];
+    private final char[][] board = new char[8][8];
     private boolean isWhiteTurn = true;
     private boolean drawOffer = false;
     private TelegramBotsApi botsApi;
@@ -130,7 +131,7 @@ public class CheckersBot extends TelegramLongPollingBot {
                     return true;
                 }
 
-                if (rowDiff == 2 && (colDiff == 2||colDiff == -2)) {
+                if (rowDiff == 2 && (colDiff == 2 || colDiff == -2)) {
                     int capturedRow = (fromRow + toRow) / 2;
                     int capturedCol = (fromCol + toCol) / 2;
                     char capturedPiece = board[capturedRow][capturedCol];
@@ -148,9 +149,7 @@ public class CheckersBot extends TelegramLongPollingBot {
                     int capturedRow = (fromRow + toRow) / 2;
                     int capturedCol = (fromCol + toCol) / 2;
                     char capturedPiece = board[capturedRow][capturedCol];
-                    if (capturedPiece == 'w' || capturedPiece == 'W') {
-                        return true; // Capture en bas à droite
-                    }
+                    return capturedPiece == 'w' || capturedPiece == 'W'; // Capture en bas à droite
                 }
 
             }
@@ -207,7 +206,7 @@ public class CheckersBot extends TelegramLongPollingBot {
             int newCol = col + direction[1];
 
             if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
-                if (isValidMove((char) (col + 'a') + "" + (8 - row) + " to " + (char) (newCol + 'a') + "" + (8 - newRow))) {
+                if (isValidMove((char) (col + 'a') + "" + (8 - row) + " to " + (char) (newCol + 'a') + (8 - newRow))) {
                     return true;
                 }
             }
@@ -283,9 +282,8 @@ public class CheckersBot extends TelegramLongPollingBot {
             } else if (messageText.equalsIgnoreCase("/resign")) {
                 response = (isWhiteTurn ? "White" : "Black") + " resigns. " + (!isWhiteTurn ? "White" : "Black") + " wins!";
                 resetBoard();
-            }
-            else if (messageText.equalsIgnoreCase("/quit")) {
-                response =  " Bot ist stopping. Goodbye!";
+            } else if (messageText.equalsIgnoreCase("/quit")) {
+                response = " Bot ist stopping. Goodbye!";
                 stopBot();
             } else {
                 drawOffer = false;
@@ -324,7 +322,8 @@ public class CheckersBot extends TelegramLongPollingBot {
             }
         }
     }
-    private void sendStartupMessage () {
+
+    private void sendStartupMessage() {
         SendMessage message = new SendMessage();
 
         message.setChatId("7163912977");
@@ -335,6 +334,7 @@ public class CheckersBot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
+
     @Override
     public String getBotUsername() {
         return new GetConfig("config.txt").getUserName();
@@ -344,12 +344,14 @@ public class CheckersBot extends TelegramLongPollingBot {
     public String getBotToken() {
         return new GetConfig("config.txt").getToken();
     }
-    public void stopBot () {
+
+    public void stopBot() {
 
         // Shutdown the application
         System.exit(0);
     }
-    public void startBot () {
+
+    public void startBot() {
         try {
             botsApi = new TelegramBotsApi(DefaultBotSession.class);
             botsApi.registerBot(this);
@@ -358,7 +360,8 @@ public class CheckersBot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
-    public boolean isRunning () {
+
+    public boolean isRunning() {
         return running;
     }
 

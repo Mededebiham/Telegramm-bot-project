@@ -1,5 +1,6 @@
 package telegrambot.detectivgame;
 
+@SuppressWarnings("ALL")
 public class Suspect {
     private String name;
     private String alibi;

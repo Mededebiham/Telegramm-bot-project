@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import telegrambot.GetConfig;
 
+@SuppressWarnings("ALL")
 public class MysteryDetectiveBot extends TelegramLongPollingBot {
     private GetConfig getConfig = new GetConfig("config.txt");
     private String currentScenario = "stolen_painting";
@@ -27,27 +28,23 @@ public class MysteryDetectiveBot extends TelegramLongPollingBot {
         String messageReceived = update.getMessage().getText();
         System.out.println(messageReceived);
         if (getstart) {
-            getMain_Menu=false;
+            getMain_Menu = false;
             if (messageReceived.equalsIgnoreCase("/start")) {
                 sendMessage(chatId, "Welcome to Mystery Detectiv! Type /start to begin, or /quit to stop  bot" +
                         " type /Where were you  to get position, /clues to get clues and /solution to get solution");
 
-            }
-            else if (messageReceived.equals("/quit")) {
+            } else if (messageReceived.equals("/quit")) {
                 sendMessage(chatId, "Bot is stopping: Goodbye!");
                 stopBot();
-            }
-            else if (messageReceived.equalsIgnoreCase("/main_menu")) {
-                getstart=false;
-                getMain_Menu=true;
+            } else if (messageReceived.equalsIgnoreCase("/main_menu")) {
+                getstart = false;
+                getMain_Menu = true;
                 sendMessage(chatId, "you go back to main menu!" +
                         "typ /yes to back Main menu, /no to continue /quit to close bot");
-            }
-            else if (messageReceived.equals("/cancel")) {
+            } else if (messageReceived.equals("/cancel")) {
                 sendStartupMessage();
-                getstart=false;
-            }
-            else{
+                getstart = false;
+            } else {
                 String responseText = processUserMessage(messageReceived);
                 System.out.println(responseText);
                 SendMessage message = new SendMessage();
@@ -67,13 +64,12 @@ public class MysteryDetectiveBot extends TelegramLongPollingBot {
                 sendWelcomeMessage(chatId);
                 scenario.getDescription();
                 getstart = true;
-            }
-            else if (messageReceived.equalsIgnoreCase("/main_menu")) {
-                getstart=false;
-                getMain_Menu=true;
+            } else if (messageReceived.equalsIgnoreCase("/main_menu")) {
+                getstart = false;
+                getMain_Menu = true;
                 sendMessage(chatId, "you go back to main menu!" +
                         "typ /yes to back Main menu, /no to continue /quit to close bot");
-            }else if (messageReceived.equals("/quit")) {
+            } else if (messageReceived.equals("/quit")) {
                 sendMessage(chatId, "Bot is stopping: Goodbye!");
                 stopBot();
             } else {
@@ -96,8 +92,7 @@ public class MysteryDetectiveBot extends TelegramLongPollingBot {
             response = String.join(", ", suspect.getClues());
         } else if (messageText.toLowerCase().contains("solution")) {
             response = "The solution is: " + scenario.getSolution();
-        }
-        else {
+        } else {
             response = "I'm not sure how to respond to that.";
         }
 
@@ -145,6 +140,7 @@ public class MysteryDetectiveBot extends TelegramLongPollingBot {
         sendMessage(chatId, "Welcome to Mystery Detectiv! Type /start to begin, /cancel to get start or /quit to stop  bot." +
                 " type /Where were you  to get position, /clues to get clues and /solution to get solution");
     }
+
     public void stopBot() {
 
         // Shutdown the application
@@ -168,6 +164,7 @@ public class MysteryDetectiveBot extends TelegramLongPollingBot {
     public boolean isRunning() {
         return running;
     }
+
     public void setGetstart(boolean getstart) {
         this.getstart = getstart;
     }

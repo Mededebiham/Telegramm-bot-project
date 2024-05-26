@@ -1,8 +1,10 @@
 package telegrambot.tictactoe;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class BlockGame {
     private List<Integer> board;
     private final int size = 3;

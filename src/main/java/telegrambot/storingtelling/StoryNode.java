@@ -2,6 +2,7 @@ package telegrambot.storingtelling;
 
 import java.util.Map;
 
+@SuppressWarnings("ALL")
 public class StoryNode {
     private String text;
     private Map<String, String> choices;

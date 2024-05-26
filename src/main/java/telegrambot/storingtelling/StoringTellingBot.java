@@ -11,41 +11,39 @@ import telegrambot.GetConfig;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@SuppressWarnings("ALL")
 public class StoringTellingBot extends TelegramLongPollingBot {
     private Map<Long, StoryState> userStoryStates = new HashMap<>();
-    private GetConfig getConfig=new GetConfig("config.txt");
+    private GetConfig getConfig = new GetConfig("config.txt");
     private String previousMessage;
     private boolean getstart;
     private TelegramBotsApi botsApi;
     public boolean running = true;
     public boolean getMain_Menu;
-    public StoringTellingBot()
-    {
+
+    public StoringTellingBot() {
         sendStartupMessage();
     }
+
     @Override
     public void onUpdateReceived(Update update) {
         long chatId = update.getMessage().getChatId();
         String messageReceived = update.getMessage().getText();
         System.out.println(messageReceived);
-        if(getstart){
-            getMain_Menu=false;
-            if(messageReceived.equals("/quit")){
-               stopBot();
-            }
-            else if (messageReceived.equalsIgnoreCase("/main_menu")) {
-                getstart=false;
-                getMain_Menu=true;
+        if (getstart) {
+            getMain_Menu = false;
+            if (messageReceived.equals("/quit")) {
+                stopBot();
+            } else if (messageReceived.equalsIgnoreCase("/main_menu")) {
+                getstart = false;
+                getMain_Menu = true;
                 sendMessage(chatId, "you go back to main menu!" +
                         "typ /yes to back Main menu, /no to continue /quit to close bot");
-            }
-            else if(messageReceived.equals("/cancel")){
-                getstart=false;
-            }
-            else{
+            } else if (messageReceived.equals("/cancel")) {
+                getstart = false;
+            } else {
                 StoryState state = userStoryStates.getOrDefault(chatId, new StoryState());
-                String responseText = state.processUserMessage(messageReceived,previousMessage);
+                String responseText = state.processUserMessage(messageReceived, previousMessage);
                 //System.out.println(responseText);
                 userStoryStates.put(chatId, state);
 
@@ -58,40 +56,37 @@ public class StoringTellingBot extends TelegramLongPollingBot {
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
-                if(state.isCorrectInput()){
-                    previousMessage=messageReceived;
+                if (state.isCorrectInput()) {
+                    previousMessage = messageReceived;
                 }
 
 
             }
 
-        }
-        else{
-            if(messageReceived.equals("/start")){
+        } else {
+            if (messageReceived.equals("/start")) {
                 sendWelcomeMessage(chatId);
                 getstart = true;
-            }
-            else if (messageReceived.equalsIgnoreCase("/main_menu")) {
-                getstart=false;
-                getMain_Menu=true;
+            } else if (messageReceived.equalsIgnoreCase("/main_menu")) {
+                getstart = false;
+                getMain_Menu = true;
                 sendMessage(chatId, "you go back to main menu!" +
                         "typ /yes to back Main menu, /no to continue /quit to close bot");
-            }
-            else if (messageReceived.equals("/quit")) {
+            } else if (messageReceived.equals("/quit")) {
                 sendMessage(chatId, "Bot is stopping: Goodbye!");
                 stopBot();
-            }
-            else{
+            } else {
                 sendMessage(chatId, "in valide choice. type /start  to begin");
             }
         }
 
 
-
     }
+
     private void sendWelcomeMessage(long chatId) {
         sendMessage(chatId, "Welcome to Storring telling!");
     }
+
     private void sendMessage(long chatId, String text) {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
@@ -103,6 +98,7 @@ public class StoringTellingBot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
+
     private void sendStartupMessage() {
         SendMessage message = new SendMessage();
         message.setChatId("7163912977");
@@ -125,11 +121,13 @@ public class StoringTellingBot extends TelegramLongPollingBot {
 
         return getConfig.getUserName();
     }
+
     public void stopBot() {
 
         // Shutdown the application
         System.exit(0);
     }
+
     public void startBot() {
         try {
             botsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -147,6 +145,7 @@ public class StoringTellingBot extends TelegramLongPollingBot {
     public boolean isRunning() {
         return running;
     }
+
     public void setGetstart(boolean getstart) {
         this.getstart = getstart;
     }

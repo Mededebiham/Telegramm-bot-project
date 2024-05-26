@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
+@SuppressWarnings("ALL")
 public class Board {
     private char[][] board = new char[8][8];
     private boolean isWhiteTurn = true;
@@ -114,7 +115,7 @@ public class Board {
                     return true;
                 }
 
-                if (rowDiff == 2 && (colDiff == 2||colDiff == -2)) {
+                if (rowDiff == 2 && (colDiff == 2 || colDiff == -2)) {
                     int capturedRow = (fromRow + toRow) / 2;
                     int capturedCol = (fromCol + toCol) / 2;
                     char capturedPiece = board[capturedRow][capturedCol];
@@ -132,9 +133,7 @@ public class Board {
                     int capturedRow = (fromRow + toRow) / 2;
                     int capturedCol = (fromCol + toCol) / 2;
                     char capturedPiece = board[capturedRow][capturedCol];
-                    if (capturedPiece == 'w' || capturedPiece == 'W') {
-                        return true; // Capture en bas à droite
-                    }
+                    return capturedPiece == 'w' || capturedPiece == 'W'; // Capture en bas à droite
                 }
 
             }
@@ -191,7 +190,7 @@ public class Board {
             int newCol = col + direction[1];
 
             if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
-                if (isValidMove((char) (col + 'a') + "" + (8 - row) + " to " + (char) (newCol + 'a') + "" + (8 - newRow))) {
+                if (isValidMove((char) (col + 'a') + "" + (8 - row) + " to " + (char) (newCol + 'a') + (8 - newRow))) {
                     return true;
                 }
             }

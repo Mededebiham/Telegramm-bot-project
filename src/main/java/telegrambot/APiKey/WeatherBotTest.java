@@ -1,12 +1,12 @@
 package telegrambot.APiKey;
 
-import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
+
+@SuppressWarnings("ALL")
 public class WeatherBotTest {
     public static void main(String[] args) throws TelegramApiException {
-        WeatherBot bot=new WeatherBot();
+        WeatherBot bot = new WeatherBot();
         bot.startBot();
         new Thread(() -> {
             while (bot.isRunning()) {
@@ -18,5 +18,6 @@ public class WeatherBotTest {
             }
             bot.stopBot();
         }).start();
+
     }
 }

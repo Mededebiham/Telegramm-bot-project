@@ -1,16 +1,19 @@
 package telegrambot.storingtelling;
 
-import telegrambot.detectivgame.Suspect;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("ALL")
 public class StoryState {
     private boolean startGame;
     private static final Map<String, StoryNode> storyNodes = new HashMap<>();
     private boolean correctInput;
-
-
+/*
+bloc d'initialisation statique en Java.
+Un bloc d'initialisation statique est un bloc de code qui est exécuté lorsque
+la classe est chargée par le chargeur de classes Java, et il est exécuté avant l'exécution de tout constructeur ou méthode statique.
+ */
     static {
         // Define story nodes
         storyNodes.put("start", new StoryNode(
@@ -51,7 +54,6 @@ public class StoryState {
         ));
     }
 
-
     public String processUserMessage(String curentMessage, String previousMessage) {
         String response = "";
         StoryNode currentNode = storyNodes.get(curentMessage);
@@ -59,16 +61,16 @@ public class StoryState {
             if (currentNode != null) {
                 if (curentMessage.equals("stop") || curentMessage.equals("start") || curentMessage.equals("restart")) {
                     response = currentNode.getText();
-                    correctInput=true;
+                    correctInput = true;
                 } else {
 
                     StoryNode eventual = storyNodes.get(previousMessage);
                     Map<String, String> choices = eventual.getChoices();
                     if (choices.containsValue(curentMessage)) {
                         response = currentNode.getText();
-                        correctInput=true;
+                        correctInput = true;
                     } else {
-                        correctInput=false;
+                        correctInput = false;
                         response = "invalide choice " + eventual.getText();
 
                     }
@@ -81,7 +83,7 @@ public class StoryState {
                 }
             } else {
                 StoryNode eventual = storyNodes.get(previousMessage);
-                correctInput=false;
+                correctInput = false;
                 return "invalide choice " + eventual.getText();
 
             }
@@ -89,9 +91,9 @@ public class StoryState {
             if (curentMessage.equals("start")) {
                 response = storyNodes.get("start").getText();
                 startGame = true;
-                correctInput=true;
+                correctInput = true;
             } else {
-                correctInput=false;
+                correctInput = false;
                 response = "invalid choise. Please enter start to begin or stop to cancel or /quit to stop bot";
             }
 

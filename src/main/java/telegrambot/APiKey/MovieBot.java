@@ -14,13 +14,15 @@ import org.json.JSONObject;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import telegrambot.GetConfig;
 
+@SuppressWarnings("ALL")
 public class MovieBot extends TelegramLongPollingBot {
     private final String TMDB_API_KEY = "8fb16d4f7e76a2e6e0f952ee0918b5e9";
     private boolean getstart;
     private TelegramBotsApi botsApi;
     public boolean running = true;
     public boolean getMain_Menu;
-    public MovieBot(){
+
+    public MovieBot() {
         sendStartupMessage();
     }
 
@@ -31,8 +33,8 @@ public class MovieBot extends TelegramLongPollingBot {
             String chatId = message.getChatId().toString();
             String text = message.getText();
 
-            if(getstart){
-                getMain_Menu=false;
+            if (getstart) {
+                getMain_Menu = false;
                 if (text.startsWith("/movie")) {
                     String query = text.replace("/movie", "").trim();
                     String movieInfo = getMovieInfo(query);
@@ -45,55 +47,50 @@ public class MovieBot extends TelegramLongPollingBot {
                     String title = text.replace("/title", "").trim();
                     String titleMovies = getMoviesByTitle(title);
                     sendResponse(chatId, titleMovies);
-                }
-                else if (text.equals("/cancel")) {
-                   sendStartupMessage();
-                    getstart=false;
+                } else if (text.equals("/cancel")) {
+                    sendStartupMessage();
+                    getstart = false;
 
 
-                }
-                else if (text.equalsIgnoreCase("/main_menu")) {
-                    getstart=false;
-                    getMain_Menu=true;
+                } else if (text.equalsIgnoreCase("/main_menu")) {
+                    getstart = false;
+                    getMain_Menu = true;
                     sendResponse(chatId, "you go back to main menu!" +
                             "typ /yes to back Main menu, /no to continue /quit to close bot");
-                }
-                else if (text.equals("/quit")) {
+                } else if (text.equals("/quit")) {
                     sendResponse(chatId, "Bot is stopping: Goodbye!");
                     stopBot();
 
-                }else {
+                } else {
                     sendResponse(chatId, "Invalid choice. type /movie <Title> to search film by Title, " +
                             "/actor <name of actor> to search fim by actor, /title <keyword> to search " +
                             "for movies by title. /cancel to quit game and return to menu. /quit to stop bot");
                 }
 
-            }
-            else{
+            } else {
                 if (text.equals("/start")) {
                     sendResponse(chatId, "now  type /movie <Title> to search film by Title, " +
                             "/actor <name of actor> to search fim by actor, /title <keyword> to search " +
                             "for movies by title. /cancel to quit game and return to menu. /quit to stop bot");
-                    getstart=true;
+                    getstart = true;
 
-                }
-                else if (text.equalsIgnoreCase("/main_menu")) {
-                    getstart=false;
-                    getMain_Menu=true;
+                } else if (text.equalsIgnoreCase("/main_menu")) {
+                    getstart = false;
+                    getMain_Menu = true;
                     sendResponse(chatId, "you go back to main menu!" +
                             "typ /yes to back Main menu, /no to continue /quit to close bot");
-                }
-                else if (text.equals("/quit")) {
+                } else if (text.equals("/quit")) {
                     sendResponse(chatId, "Bot is stopping: Goodbye!");
                     stopBot();
 
-                }else {
+                } else {
                     sendResponse(chatId, "in valide choice. type /start  to begin");
                 }
             }
 
         }
     }
+
     private void sendStartupMessage() {
         SendMessage message = new SendMessage();
         message.setChatId("7163912977");
@@ -217,11 +214,13 @@ public class MovieBot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
+
     public void stopBot() {
 
         // Shutdown the application
         System.exit(0);
     }
+
     public void startBot() {
         try {
             botsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -231,6 +230,7 @@ public class MovieBot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
+
     @Override
     public String getBotUsername() {
         return new GetConfig("config.txt").getUserName();
@@ -252,6 +252,7 @@ public class MovieBot extends TelegramLongPollingBot {
     public boolean isRunning() {
         return running;
     }
+
     private void sendWelcomeMessage(long chatId) {
         sendResponse(String.valueOf(chatId), "hello and welcome in  Movie Bot! Type /start to begin, /cancel to get start or /quit to stop  bot." +
                 " type /Where were you  to get position, /clues to get clues and /solution to get solution");

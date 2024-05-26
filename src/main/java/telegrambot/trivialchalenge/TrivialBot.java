@@ -1,4 +1,5 @@
 package telegrambot.trivialchalenge;
+
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -11,6 +12,7 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("ALL")
 public class TrivialBot extends TelegramLongPollingBot {
     private String botUsername = "YOUR_BOT_USERNAME";
     private String botToken = "YOUR_BOT_TOKEN";
@@ -18,10 +20,10 @@ public class TrivialBot extends TelegramLongPollingBot {
     public boolean running = true;
     public boolean getMain_Menu;
 
-    private Map<Long, Integer> userScores = new HashMap<>();
-    private Map<Long, String> currentQuestions = new HashMap<>();
-    private Map<Long, String> currentAnswers = new HashMap<>();
-    private Map<Long, String[]> currentOptions = new HashMap<>();
+    private final Map<Long, Integer> userScores = new HashMap<>();
+    private final Map<Long, String> currentQuestions = new HashMap<>();
+    private final Map<Long, String> currentAnswers = new HashMap<>();
+    private final Map<Long, String[]> currentOptions = new HashMap<>();
 
     private Connection connection;
 
@@ -32,10 +34,11 @@ public class TrivialBot extends TelegramLongPollingBot {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        this.botUsername=(new GetConfig("config.txt")).getUserName();
-        this.botToken=(new GetConfig("config.txt")).getToken();
+        this.botUsername = (new GetConfig("config.txt")).getUserName();
+        this.botToken = (new GetConfig("config.txt")).getToken();
         sendStartupMessage();
     }
+
     private void sendStartupMessage() {
         SendMessage message = new SendMessage();
         message.setChatId("7163912977");
@@ -46,6 +49,7 @@ public class TrivialBot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
+
     @Override
     public String getBotUsername() {
         return botUsername;
@@ -61,8 +65,8 @@ public class TrivialBot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             long chatId = update.getMessage().getChatId();
             String messageText = update.getMessage().getText();
-            if(getstart){
-                getMain_Menu=false;
+            if (getstart) {
+                getMain_Menu = false;
                 if (messageText.equalsIgnoreCase("/start")) {
                     sendWelcomeMessage(chatId);
                 } else if (messageText.equalsIgnoreCase("/score")) {
@@ -74,39 +78,32 @@ public class TrivialBot extends TelegramLongPollingBot {
                     askQuestion(chatId, category);
                 } else if (messageText.equalsIgnoreCase("/categories")) {
                     listCategories(chatId);
-                }
-                else if (messageText.equalsIgnoreCase("/cancel")) {
+                } else if (messageText.equalsIgnoreCase("/cancel")) {
                     sendStartupMessage();
-                    getstart=false;
-                }
-                else if (messageText.equalsIgnoreCase("/quit")) {
+                    getstart = false;
+                } else if (messageText.equalsIgnoreCase("/quit")) {
                     sendMessage(chatId, "Bot is stopping: Goodbye!");
                     stopBot();
-                }
-                else if (messageText.equalsIgnoreCase("/main_menu")) {
-                    getMain_Menu=true;
+                } else if (messageText.equalsIgnoreCase("/main_menu")) {
+                    getMain_Menu = true;
                     sendMessage(chatId, "you go back to main menu!" +
                             "typ /yes to back Main menu, /no to continue /quit to close bot");
                 } else {
                     handleUserResponse(chatId, messageText);
                 }
 
-            }
-            else{
-                if(messageText.equals("/start")){
+            } else {
+                if (messageText.equals("/start")) {
                     sendWelcomeMessage(chatId);
                     getstart = true;
-                }
-                else if (messageText.equals("/quit")) {
+                } else if (messageText.equals("/quit")) {
                     sendMessage(chatId, "Bot is stopping: Goodbye!");
                     stopBot();
-                }
-                else if (messageText.equalsIgnoreCase("/main_menu")) {
-                    getMain_Menu=true;
+                } else if (messageText.equalsIgnoreCase("/main_menu")) {
+                    getMain_Menu = true;
                     sendMessage(chatId, "you go back to main menu!" +
                             "typ /yes to back Main menu, /no to continue /quit to close bot");
-                }
-                else{
+                } else {
                     sendMessage(chatId, "in valide choice. type /start  to begin or /quit to stop bot");
                 }
             }
@@ -130,8 +127,7 @@ public class TrivialBot extends TelegramLongPollingBot {
         String query = "SELECT question, answer, options FROM trivia_questions";
         if (category != null && !category.isEmpty()) {
             query += " WHERE category = ?";
-        }
-        else{
+        } else {
             query += " WHERE category = category";
         }
         query += " ORDER BY RANDOM() LIMIT 1";
@@ -183,7 +179,7 @@ public class TrivialBot extends TelegramLongPollingBot {
                 sendMessage(chatId, "Correct! Your score: " + userScores.get(chatId));
             } else {
                 userScores.put(chatId, userScores.getOrDefault(chatId, 0) - 1);
-                sendMessage(chatId, "Incorrect. your score :"+ userScores.get(chatId)+". The correct answer was: " + correctAnswer);
+                sendMessage(chatId, "Incorrect. your score :" + userScores.get(chatId) + ". The correct answer was: " + correctAnswer);
             }
 
             currentQuestions.remove(chatId);
@@ -191,7 +187,7 @@ public class TrivialBot extends TelegramLongPollingBot {
             currentOptions.remove(chatId);
         } else {
             sendMessage(chatId, "Invalid choice. Type /next to get a question, /category <category> to get a question from a specific category, " +
-                                     "/categories to see the list of available categories, /score to check your score, /cancel to return to menu, /quit to stop bot");
+                    "/categories to see the list of available categories, /score to check your score, /cancel to return to menu, /quit to stop bot");
         }
     }
 
@@ -222,11 +218,13 @@ public class TrivialBot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
+
     public void stopBot() {
 
         // Shutdown the application
         System.exit(0);
     }
+
     public void startBot() {
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -244,6 +242,7 @@ public class TrivialBot extends TelegramLongPollingBot {
     public boolean isRunning() {
         return running;
     }
+
     public void setGetstart(boolean getstart) {
         this.getstart = getstart;
     }

@@ -6,6 +6,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import telegrambot.APiKey.MovieBot;
 import telegrambot.trivialchalenge.DatabaseManager;
 
+@SuppressWarnings("ALL")
 public class Test {
     public static void main(String[] args) throws TelegramApiException {
         DatabaseManager.createNewDatabase();

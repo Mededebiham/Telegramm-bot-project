@@ -7,17 +7,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class GetConfig {
     private String userName;
     private String token;
     private String filePath;
-    public GetConfig(String filePath){
-        this.filePath=filePath;
+
+    public GetConfig(String filePath) {
+        this.filePath = filePath;
         getUserAndToken();
 
     }
-    private List<String> readFile(String fileName){
-        List<String>toReadFile=new ArrayList<>();
+
+    private List<String> readFile(String fileName) {
+        List<String> toReadFile = new ArrayList<>();
         File file = new File(fileName);
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
@@ -29,12 +32,13 @@ public class GetConfig {
         }
         return toReadFile;
     }
-    private void getUserAndToken(){
-        List<String>config=readFile(this.filePath);
-        String first=config.get(0);
-        String second=config.get(1);
-        this.userName=first.split("\\{:")[1];
-        this.token=second.split("\\{:")[1];
+
+    private void getUserAndToken() {
+        List<String> config = readFile(this.filePath);
+        String first = config.get(0);
+        String second = config.get(1);
+        this.userName = first.split("\\{:")[1];
+        this.token = second.split("\\{:")[1];
 
     }
 

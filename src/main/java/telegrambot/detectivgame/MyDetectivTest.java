@@ -5,11 +5,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import telegrambot.APiKey.MovieBot;
 
-
+@SuppressWarnings("ALL")
 public class MyDetectivTest {
 
     public static void main(String[] args) throws TelegramApiException {
-        MysteryDetectiveBot bot=new MysteryDetectiveBot();
+        MysteryDetectiveBot bot = new MysteryDetectiveBot();
         bot.startBot();
         new Thread(() -> {
             while (bot.isRunning()) {
@@ -22,7 +22,7 @@ public class MyDetectivTest {
             bot.stopBot();
         }).start();
     }
-    }
+}
 
 
 

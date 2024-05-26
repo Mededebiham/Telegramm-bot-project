@@ -1,13 +1,11 @@
 package telegrambot.example.dame;
 
-import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
-import telegrambot.APiKey.WeatherBot;
 
+@SuppressWarnings("ALL")
 public class CheckerTest {
     public static void main(String[] args) throws TelegramApiException {
-        CheckersBot bot=new CheckersBot();
+        CheckersBot bot = new CheckersBot();
         bot.startBot();
         new Thread(() -> {
             while (bot.isRunning()) {

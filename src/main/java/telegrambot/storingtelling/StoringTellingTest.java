@@ -1,11 +1,9 @@
 package telegrambot.storingtelling;
 
-import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
-import telegrambot.APiKey.MovieBot;
-import telegrambot.detectivgame.MysteryDetectiveBot;
 
+
+@SuppressWarnings("ALL")
 public class StoringTellingTest {
     public static void main(String[] args) throws TelegramApiException {
         StoringTellingBot bot = new StoringTellingBot();
