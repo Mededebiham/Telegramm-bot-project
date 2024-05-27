@@ -42,7 +42,8 @@ public class TrivialBot extends TelegramLongPollingBot {
     private void sendStartupMessage() {
         SendMessage message = new SendMessage();
         message.setChatId("7163912977");
-        message.setText("hello and welcome in Trivial challenge. please type /start to beginn or /quit to stop bot");
+        message.setText("hello and welcome in Trivial challenge. please type /start to beginn " +
+                "or /quit to stop bot or /main_menu to back to main menu");
         try {
             execute(message);
         } catch (TelegramApiException e) {
@@ -104,7 +105,8 @@ public class TrivialBot extends TelegramLongPollingBot {
                     sendMessage(chatId, "you go back to main menu!" +
                             "typ /yes to back Main menu, /no to continue /quit to close bot");
                 } else {
-                    sendMessage(chatId, "in valide choice. type /start  to begin or /quit to stop bot");
+                    sendMessage(chatId, "in valide choice. type /start  to begin " +
+                            "or /quit to stop bot or /main_menu to back to main menu");
                 }
             }
 

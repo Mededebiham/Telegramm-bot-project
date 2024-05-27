@@ -58,7 +58,7 @@ public class WeatherBot extends TelegramLongPollingBot {
                     } else if (message.getText().equalsIgnoreCase("/main_menu")) {
                         getstart = false;
                         getMain_Menu = true;
-                        sendResponse(chatId, "you go back to main menu!" +
+                        sendResponse(chatId, "you want to go back to main menu!" +
                                 "typ /yes to back Main menu, /no to continue /quit to close bot");
                     } else if (message.getText().equals("/cancel")) {
                         sendStartupMessage();
@@ -66,7 +66,7 @@ public class WeatherBot extends TelegramLongPollingBot {
 
                     } else {
                         sendResponse(chatId, " Invalid choice. Typ /weather <city> for current weather or /forecast <city> for forecast." +
-                                "or /quit to stop bot or /cancel to begin");
+                                "or /quit to stop bot or /cancel to begin or  /main_menu to back main menu");
                     }
                 } else if (message.hasLocation()) {
                     Location location = message.getLocation();
@@ -76,13 +76,13 @@ public class WeatherBot extends TelegramLongPollingBot {
             } else {
                 if (message.getText().equals("/start")) {
                     sendResponse(chatId, " Typ /weather <city> for current weather or /forecast <city> for forecast." +
-                            "or /quit to stop bot or /cancel to begin");
+                            "or /quit to stop bot or /cancel to begin or /main_menu to back main menu");
                     getstart = true;
 
                 } else if (message.getText().equalsIgnoreCase("/main_menu")) {
                     getstart = false;
                     getMain_Menu = true;
-                    sendResponse(chatId, "you go back to main menu!" +
+                    sendResponse(chatId, "you want to go back to main menu!" +
                             "typ /yes to back Main menu, /no to continue /quit to close bot");
                 } else if (message.getText().equals("/quit")) {
                     sendResponse(chatId, "Bot is stopping: Goodbye!");
@@ -93,7 +93,8 @@ public class WeatherBot extends TelegramLongPollingBot {
                     getstart = false;
 
                 } else {
-                    sendResponse(chatId, "in valide choice. type /start  to begin");
+                    sendResponse(chatId, "in valide choice. type /start  to begin" +
+                            "or /quit to stop bot or /cancel to begin or /main_menu to back main menu");
                 }
             }
 
@@ -105,7 +106,8 @@ public class WeatherBot extends TelegramLongPollingBot {
         SendMessage message = new SendMessage();
 
         message.setChatId("7163912977");
-        message.setText("hello and welcome in My wheater  bot. please type /start to beginn or /quit to stop bot");
+        message.setText("hello and welcome in My wheater  bot. please type /start to beginn or /quit to stop bot" +
+                "or /main_menu to back main menu");
         try {
             execute(message);
         } catch (TelegramApiException e) {

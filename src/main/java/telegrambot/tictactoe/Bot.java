@@ -37,12 +37,14 @@ public class Bot extends TelegramLongPollingBot {
             getMain_Menu = false;
             if (changegame == 0) {
                 if (messageReceived.equals("/play_puzzle")) {
-                    sendResponse(chatId, "Welcome to Puzzle! Type /new_game, to begin, /cancel to back to menu, /quit to stop bot");
+                    sendResponse(chatId, "Welcome to Puzzle! Type /new_game, to begin, /cancel to back to menu," +
+                            " /quit to stop bot or /main_menu to back to main menu");
                     changegame = 1;
 
 
                 } else if (messageReceived.equals("/play_quiz")) {
-                    sendResponse(chatId, "welcome to quiz! Type /new_game, to begin, /cancel to back to menu, /quit to stop bot");
+                    sendResponse(chatId, "welcome to quiz! Type /new_game, to begin, /cancel to back to menu, " +
+                            "/quit to stop bot or /main_menu to back to main menu");
                     changegame = 2;
                 } else if (messageReceived.equals("/cancel")) {
                     sendStartupMessage();
@@ -50,9 +52,14 @@ public class Bot extends TelegramLongPollingBot {
                 } else if (messageReceived.equals("/quit")) {
                     sendResponse(chatId, "Bot is stopping: Goodbye!");
                     stopBot();
+                } else if (messageReceived.equalsIgnoreCase("/main_menu")) {
+                    getstart = false;
+                    getMain_Menu = true;
+                    sendResponse(chatId, "you  want to go back to main menu!" +
+                            "typ /yes to back Main menu, /no to continue /quit to close bot");
                 } else {
                     sendResponse(chatId, "Invalid choice. type /play_puzzle for playing puzzle or /play_quiz for playing quiz, " +
-                            "/cancel to back to menu, /quit to stop bot");
+                            "/cancel to back to menu, or /main_menu to back to main menu or  /quit to stop bot");
                 }
 
             } else if (changegame == 1) {
@@ -68,12 +75,14 @@ public class Bot extends TelegramLongPollingBot {
                 } else if (messageReceived.equalsIgnoreCase("/main_menu")) {
                     getstart = false;
                     getMain_Menu = true;
-                    sendResponse(chatId, "you go back to main menu!");
+                    sendResponse(chatId, "you want to go back to main menu!" +
+                            "typ /yes to back Main menu, /no to continue /quit to close bot");
                 } else if (messageReceived.equals("/quit")) {
                     sendResponse(chatId, "Bot is stopping: Goodbye!");
                     stopBot();
                 } else {
-                    sendResponse(chatId, "Invalid choice. Type /new_game, to begin, /cancel to back to menu, /quit to stop bot");
+                    sendResponse(chatId, "Invalid choice. Type /new_game, to begin, /cancel to back to menu," +
+                            "or /main_menu to back to main menu or /quit to stop bot");
 
                 }
 
@@ -92,10 +101,11 @@ public class Bot extends TelegramLongPollingBot {
                 } else if (messageReceived.equalsIgnoreCase("/main_menu")) {
                     getstart = false;
                     getMain_Menu = true;
-                    sendResponse(chatId, "you go back to main menu!" +
+                    sendResponse(chatId, "you want to go back to main menu!" +
                             "typ /yes to back Main menu, /no to continue /quit to close bot");
                 } else {
-                    sendResponse(chatId, "Invalid choice. Type /new_game, to begin, /cancel to back to menu, /quit to stop bot");
+                    sendResponse(chatId, "Invalid choice. Type /new_game, to begin, /cancel to back to menu," +
+                            "or /main_menu to back to main menu or /quit to stop bot");
                 }
             }
             if (startblocgame == 1) {
@@ -116,7 +126,7 @@ public class Bot extends TelegramLongPollingBot {
                 } else if (messageReceived.equalsIgnoreCase("/main_menu")) {
                     getstart = false;
                     getMain_Menu = true;
-                    sendResponse(chatId, "you go back to main menu!" +
+                    sendResponse(chatId, "you  want to go back to main menu!" +
                             "typ /yes to back Main menu, /no to continue /quit to close bot");
                 } else {
                     try {
@@ -137,7 +147,8 @@ public class Bot extends TelegramLongPollingBot {
                     sendResponse(chatId, "3. Type any text, if you want me to count its letters");
                     sendResponse(chatId, "4. Type /new game to begin new game");
                     sendResponse(chatId, "5. Type /cancel to back to menu");
-                    sendResponse(chatId, "6. Type quit to stop bot");
+                    sendResponse(chatId, "6. Type /quit to stop bot");
+                    sendResponse(chatId, "6. Type /main_menu to back to main menu");
                 } else if (messageReceived.equals("/cancel")) {
                     sendStartupMessage();
                     getstart = false;
@@ -146,7 +157,7 @@ public class Bot extends TelegramLongPollingBot {
                 } else if (messageReceived.equalsIgnoreCase("/main_menu")) {
                     getstart = false;
                     getMain_Menu = true;
-                    sendResponse(chatId, "you go back to main menu!" +
+                    sendResponse(chatId, "you want to go back to main menu!" +
                             "typ /yes to back Main menu, /no to continue /quit to close bot");
                 } else if (messageReceived.equals("/quit")) {
                     sendResponse(chatId, "Bot is stopping: Goodbye!");
@@ -167,7 +178,7 @@ public class Bot extends TelegramLongPollingBot {
         } else {
             if (messageReceived.equals("/start")) {
                 sendResponse(chatId, "Hello! Welcome to my bot. type /play_puzzle for playing puzzle or /play_quiz for playing quiz," +
-                        "/cancel to back to menu, /quit to stop bot");
+                        "/cancel to back to menu, /quit to stop bot or /main_menu to back to main menu");
                 getstart = true;
 
             } else if (messageReceived.equals("/quit")) {
@@ -245,7 +256,8 @@ public class Bot extends TelegramLongPollingBot {
     private void sendStartupMessage() {
         SendMessage message = new SendMessage();
         message.setChatId("7163912977");
-        message.setText("hello and welcome in Puzzle bot. please type /start to beginn or /quit to stop bot");
+        message.setText("hello and welcome in Puzzle bot. please type /start to beginn or" +
+                " /quit to stop bot or /main_menu to back to main menu");
         try {
             execute(message);
         } catch (TelegramApiException e) {

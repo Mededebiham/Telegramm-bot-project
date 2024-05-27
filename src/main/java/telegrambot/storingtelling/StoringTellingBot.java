@@ -37,8 +37,7 @@ public class StoringTellingBot extends TelegramLongPollingBot {
             } else if (messageReceived.equalsIgnoreCase("/main_menu")) {
                 getstart = false;
                 getMain_Menu = true;
-                sendMessage(chatId, "you go back to main menu!" +
-                        "typ /yes to back Main menu, /no to continue /quit to close bot");
+                sendMessage(chatId, "you want to go back to main menu!" + "typ /yes to back Main menu, /no to continue /quit to close bot");
             } else if (messageReceived.equals("/cancel")) {
                 getstart = false;
             } else {
@@ -70,13 +69,12 @@ public class StoringTellingBot extends TelegramLongPollingBot {
             } else if (messageReceived.equalsIgnoreCase("/main_menu")) {
                 getstart = false;
                 getMain_Menu = true;
-                sendMessage(chatId, "you go back to main menu!" +
-                        "typ /yes to back Main menu, /no to continue /quit to close bot");
+                sendMessage(chatId, "you want to go back to main menu!" + "typ /yes to back Main menu, /no to continue /quit to close bot");
             } else if (messageReceived.equals("/quit")) {
                 sendMessage(chatId, "Bot is stopping: Goodbye!");
                 stopBot();
             } else {
-                sendMessage(chatId, "in valide choice. type /start  to begin");
+                sendMessage(chatId, "type /start to beginn or " + "or /main_menu to back main menu /quit to stop bot");
             }
         }
 
@@ -102,7 +100,7 @@ public class StoringTellingBot extends TelegramLongPollingBot {
     private void sendStartupMessage() {
         SendMessage message = new SendMessage();
         message.setChatId("7163912977");
-        message.setText("hello and welcome in my Storing telling bot. please type /start to beginn or /quit to stop bot");
+        message.setText("hello and welcome in my Storing telling bot. please type /start to beginn or " + "or /main_menu to back main menu /quit to stop bot");
         try {
             execute(message);
         } catch (TelegramApiException e) {

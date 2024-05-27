@@ -30,7 +30,7 @@ public class MysteryDetectiveBot extends TelegramLongPollingBot {
         if (getstart) {
             getMain_Menu = false;
             if (messageReceived.equalsIgnoreCase("/start")) {
-                sendMessage(chatId, "Welcome to Mystery Detectiv! Type /start to begin, or /quit to stop  bot" +
+                sendMessage(chatId, "Welcome to Mystery Detectiv! Type /start to begin, or /quit to stop  bot or/main-menu to back main menu." +
                         " type /Where were you  to get position, /clues to get clues and /solution to get solution");
 
             } else if (messageReceived.equals("/quit")) {
@@ -39,7 +39,7 @@ public class MysteryDetectiveBot extends TelegramLongPollingBot {
             } else if (messageReceived.equalsIgnoreCase("/main_menu")) {
                 getstart = false;
                 getMain_Menu = true;
-                sendMessage(chatId, "you go back to main menu!" +
+                sendMessage(chatId, "you want to go back to main menu!" +
                         "typ /yes to back Main menu, /no to continue /quit to close bot");
             } else if (messageReceived.equals("/cancel")) {
                 sendStartupMessage();
@@ -67,13 +67,14 @@ public class MysteryDetectiveBot extends TelegramLongPollingBot {
             } else if (messageReceived.equalsIgnoreCase("/main_menu")) {
                 getstart = false;
                 getMain_Menu = true;
-                sendMessage(chatId, "you go back to main menu!" +
+                sendMessage(chatId, "you want to go back to main menu!" +
                         "typ /yes to back Main menu, /no to continue /quit to close bot");
             } else if (messageReceived.equals("/quit")) {
                 sendMessage(chatId, "Bot is stopping: Goodbye!");
                 stopBot();
             } else {
-                sendMessage(chatId, "in valide choice. type /start  to begin or /quit to stop bot");
+                sendMessage(chatId, "in valide choice. type /start  to begin " +
+                        "or /main_menu to back main menu or /quit to stop bot");
             }
         }
 
