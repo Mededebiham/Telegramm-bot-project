@@ -100,9 +100,29 @@ public class GlobalBot extends TelegramLongPollingBot {
 
                 if (changeGame == 1) {
 
-                    trivialbot.onUpdateReceived(update);
                     if (trivialbot.getMain_Menu) {
-                        changeGame = 9;
+                        // changeGame = 9;
+                        if (message.getText().equalsIgnoreCase("/no")) {
+                            sendResponse("7163912977", "typ /start to continue");
+                            changeGame = 1;
+                            trivialbot.getMain_Menu = false;
+                        } else if (message.getText().equalsIgnoreCase("/quit")) {
+                            String chatId = message.getChatId().toString();
+                            sendResponse(chatId, "Bot is stopping: Goodbye!");
+                            stopBot();
+                        } else if (message.getText().equalsIgnoreCase("/yes")) {
+                            trivialbot.getMain_Menu = false;
+                            trivialbot.setGetstart(false);
+                            changeGame = 8;
+                            mainMenu = true;
+                            String chatId = message.getChatId().toString();
+                            sendMainMenu(chatId);
+                            getMainMenu(update);
+
+                        } else {
+                            String chatId = message.getChatId().toString();
+                            sendResponse(chatId, "invalide choice. typ /yes to back Main menu, /no to continue /quit to close bot");
+                        }
 
 
                     } else {
@@ -112,8 +132,28 @@ public class GlobalBot extends TelegramLongPollingBot {
                 } else if (changeGame == 2) {
 
                     if (bot.getMain_Menu) {
+                        if (message.getText().equalsIgnoreCase("/no")) {
+                            sendResponse("7163912977", "typ /start to continue");
+                            changeGame = 2;
+                            bot.getMain_Menu = false;
+                        } else if (message.getText().equalsIgnoreCase("/quit")) {
+                            String chatId = message.getChatId().toString();
+                            sendResponse(chatId, "Bot is stopping: Goodbye!");
+                            stopBot();
+                        } else if (message.getText().equalsIgnoreCase("/yes")) {
+                            bot.getMain_Menu = false;
+                            bot.setGetstart(false);
+                            changeGame = 8;
+                            mainMenu = true;
+                            String chatId = message.getChatId().toString();
+                            sendMainMenu(chatId);
+                            getMainMenu(update);
 
-                        changeGame = 10;
+                        } else {
+                            String chatId = message.getChatId().toString();
+                            sendResponse(chatId, "invalide choice. typ /yes to back Main menu, /no to continue /quit to close bot");
+                        }
+
 
                     } else {
                         bot.onUpdateReceived(update);
@@ -122,8 +162,27 @@ public class GlobalBot extends TelegramLongPollingBot {
                 } else if (changeGame == 3) {
 
                     if (storingTellingBot.getMain_Menu) {
+                        if (message.getText().equalsIgnoreCase("/no")) {
+                            sendResponse("7163912977", "typ /start to continue");
+                            changeGame = 3;
+                            storingTellingBot.getMain_Menu = false;
+                        } else if (message.getText().equalsIgnoreCase("/quit")) {
+                            String chatId = message.getChatId().toString();
+                            sendResponse(chatId, "Bot is stopping: Goodbye!");
+                            stopBot();
+                        } else if (message.getText().equalsIgnoreCase("/yes")) {
+                            storingTellingBot.getMain_Menu = false;
+                            storingTellingBot.setGetstart(false);
+                            changeGame = 8;
+                            mainMenu = true;
+                            String chatId = message.getChatId().toString();
+                            sendMainMenu(chatId);
+                            getMainMenu(update);
 
-                        changeGame = 11;
+                        } else {
+                            String chatId = message.getChatId().toString();
+                            sendResponse(chatId, "invalide choice. typ /yes to back Main menu, /no to continue /quit to close bot");
+                        }
 
                     } else {
                         storingTellingBot.onUpdateReceived(update);
@@ -134,7 +193,28 @@ public class GlobalBot extends TelegramLongPollingBot {
 
                     if (mysteryDetectiveBot.getMain_Menu) {
 
-                        changeGame = 12;
+                        if (message.getText().equalsIgnoreCase("/no")) {
+                            sendResponse("7163912977", "typ /start to continue");
+                            changeGame = 4;
+                            mysteryDetectiveBot.getMain_Menu = false;
+                        } else if (message.getText().equalsIgnoreCase("/quit")) {
+                            String chatId = message.getChatId().toString();
+                            sendResponse(chatId, "Bot is stopping: Goodbye!");
+                            stopBot();
+                        } else if (message.getText().equalsIgnoreCase("/yes")) {
+                            mysteryDetectiveBot.getMain_Menu = false;
+                            mysteryDetectiveBot.setGetstart(false);
+                            changeGame = 8;
+                            mainMenu = true;
+                            String chatId = message.getChatId().toString();
+                            sendMainMenu(chatId);
+                            getMainMenu(update);
+
+                        } else {
+                            String chatId = message.getChatId().toString();
+                            sendResponse(chatId, "invalide choice. typ /yes to back Main menu, /no to continue /quit to close bot");
+                        }
+
 
                     } else {
                         mysteryDetectiveBot.onUpdateReceived(update);
@@ -146,7 +226,27 @@ public class GlobalBot extends TelegramLongPollingBot {
 
                     if (movieBot.getMain_Menu) {
 
-                        changeGame = 13;
+                        if (message.getText().equalsIgnoreCase("/no")) {
+                            sendResponse("7163912977", "typ /start to continue");
+                            changeGame = 5;
+                            movieBot.getMain_Menu = false;
+                        } else if (message.getText().equalsIgnoreCase("/quit")) {
+                            String chatId = message.getChatId().toString();
+                            sendResponse(chatId, "Bot is stopping: Goodbye!");
+                            stopBot();
+                        } else if (message.getText().equalsIgnoreCase("/yes")) {
+                            movieBot.getMain_Menu = false;
+                            movieBot.setGetstart(false);
+                            changeGame = 8;
+                            mainMenu = true;
+                            String chatId = message.getChatId().toString();
+                            sendMainMenu(chatId);
+                            getMainMenu(update);
+
+                        } else {
+                            String chatId = message.getChatId().toString();
+                            sendResponse(chatId, "invalide choice. typ /yes to back Main menu, /no to continue /quit to close bot");
+                        }
                     } else {
                         movieBot.onUpdateReceived(update);
 
@@ -157,153 +257,34 @@ public class GlobalBot extends TelegramLongPollingBot {
 
                     if (weatherBot.getMain_Menu) {
 
-                        changeGame = 14;
+                        if (message.getText().equalsIgnoreCase("/no")) {
+                            sendResponse("7163912977", "typ /start to continue");
+                            changeGame = 6;
+                            weatherBot.getMain_Menu = false;
+                        } else if (message.getText().equalsIgnoreCase("/quit")) {
+                            String chatId = message.getChatId().toString();
+                            sendResponse(chatId, "Bot is stopping: Goodbye!");
+                            stopBot();
+                        } else if (message.getText().equalsIgnoreCase("/yes")) {
+                            weatherBot.getMain_Menu = false;
+                            weatherBot.setGetstart(false);
+                            changeGame = 8;
+                            mainMenu = true;
+                            String chatId = message.getChatId().toString();
+                            sendMainMenu(chatId);
+                            getMainMenu(update);
+
+                        } else {
+                            String chatId = message.getChatId().toString();
+                            sendResponse(chatId, "invalide choice. typ /yes to back Main menu, /no to continue /quit to close bot");
+                        }
+
                     } else {
                         weatherBot.onUpdateReceived(update);
 
                     }
 
-
-                } else if (changeGame == 9) {
-                    if (message.getText().equalsIgnoreCase("/no")) {
-                        sendResponse("7163912977", "typ /start to continue");
-                        changeGame = 1;
-                        trivialbot.getMain_Menu = false;
-                    } else if (message.getText().equalsIgnoreCase("/quit")) {
-                        String chatId = message.getChatId().toString();
-                        sendResponse(chatId, "Bot is stopping: Goodbye!");
-                        stopBot();
-                    } else if (message.getText().equalsIgnoreCase("/yes")) {
-                        trivialbot.getMain_Menu = false;
-                        trivialbot.setGetstart(false);
-                        changeGame = 8;
-                        mainMenu = true;
-                        String chatId = message.getChatId().toString();
-                        sendMainMenu(chatId);
-                        getMainMenu(update);
-
-                    } else {
-                        String chatId = message.getChatId().toString();
-                        sendResponse(chatId, "invalide choice. typ /yes to back Main menu, /no to continue /quit to close bot");
-                    }
-
-                } else if (changeGame == 10) {
-                    if (message.getText().equalsIgnoreCase("/no")) {
-                        sendResponse("7163912977", "typ /start to continue");
-                        changeGame = 2;
-                        bot.getMain_Menu = false;
-                    } else if (message.getText().equalsIgnoreCase("/quit")) {
-                        String chatId = message.getChatId().toString();
-                        sendResponse(chatId, "Bot is stopping: Goodbye!");
-                        stopBot();
-                    } else if (message.getText().equalsIgnoreCase("/yes")) {
-                        bot.getMain_Menu = false;
-                        bot.setGetstart(false);
-                        changeGame = 8;
-                        mainMenu = true;
-                        String chatId = message.getChatId().toString();
-                        sendMainMenu(chatId);
-                        getMainMenu(update);
-
-                    } else {
-                        String chatId = message.getChatId().toString();
-                        sendResponse(chatId, "invalide choice. typ /yes to back Main menu, /no to continue /quit to close bot");
-                    }
-
-                } else if (changeGame == 11) {
-                    if (message.getText().equalsIgnoreCase("/no")) {
-                        sendResponse("7163912977", "typ /start to continue");
-                        changeGame = 3;
-                        storingTellingBot.getMain_Menu = false;
-                    } else if (message.getText().equalsIgnoreCase("/quit")) {
-                        String chatId = message.getChatId().toString();
-                        sendResponse(chatId, "Bot is stopping: Goodbye!");
-                        stopBot();
-                    } else if (message.getText().equalsIgnoreCase("/yes")) {
-                        storingTellingBot.getMain_Menu = false;
-                        storingTellingBot.setGetstart(false);
-                        changeGame = 8;
-                        mainMenu = true;
-                        String chatId = message.getChatId().toString();
-                        sendMainMenu(chatId);
-                        getMainMenu(update);
-
-                    } else {
-                        String chatId = message.getChatId().toString();
-                        sendResponse(chatId, "invalide choice. typ /yes to back Main menu, /no to continue /quit to close bot");
-                    }
-
-                } else if (changeGame == 12) {
-                    if (message.getText().equalsIgnoreCase("/no")) {
-                        sendResponse("7163912977", "typ /start to continue");
-                        changeGame = 4;
-                        mysteryDetectiveBot.getMain_Menu = false;
-                    } else if (message.getText().equalsIgnoreCase("/quit")) {
-                        String chatId = message.getChatId().toString();
-                        sendResponse(chatId, "Bot is stopping: Goodbye!");
-                        stopBot();
-                    } else if (message.getText().equalsIgnoreCase("/yes")) {
-                        mysteryDetectiveBot.getMain_Menu = false;
-                        mysteryDetectiveBot.setGetstart(false);
-                        changeGame = 8;
-                        mainMenu = true;
-                        String chatId = message.getChatId().toString();
-                        sendMainMenu(chatId);
-                        getMainMenu(update);
-
-                    } else {
-                        String chatId = message.getChatId().toString();
-                        sendResponse(chatId, "invalide choice. typ /yes to back Main menu, /no to continue /quit to close bot");
-                    }
-
-                } else if (changeGame == 13) {
-                    if (message.getText().equalsIgnoreCase("/no")) {
-                        sendResponse("7163912977", "typ /start to continue");
-                        changeGame = 5;
-                        movieBot.getMain_Menu = false;
-                    } else if (message.getText().equalsIgnoreCase("/quit")) {
-                        String chatId = message.getChatId().toString();
-                        sendResponse(chatId, "Bot is stopping: Goodbye!");
-                        stopBot();
-                    } else if (message.getText().equalsIgnoreCase("/yes")) {
-                        movieBot.getMain_Menu = false;
-                        movieBot.setGetstart(false);
-                        changeGame = 8;
-                        mainMenu = true;
-                        String chatId = message.getChatId().toString();
-                        sendMainMenu(chatId);
-                        getMainMenu(update);
-
-                    } else {
-                        String chatId = message.getChatId().toString();
-                        sendResponse(chatId, "invalide choice. typ /yes to back Main menu, /no to continue /quit to close bot");
-                    }
-
-                } else if (changeGame == 14) {
-                    if (message.getText().equalsIgnoreCase("/no")) {
-                        sendResponse("7163912977", "typ /start to continue");
-                        changeGame = 6;
-                        weatherBot.getMain_Menu = false;
-                    } else if (message.getText().equalsIgnoreCase("/quit")) {
-                        String chatId = message.getChatId().toString();
-                        sendResponse(chatId, "Bot is stopping: Goodbye!");
-                        stopBot();
-                    } else if (message.getText().equalsIgnoreCase("/yes")) {
-                        weatherBot.getMain_Menu = false;
-                        weatherBot.setGetstart(false);
-                        changeGame = 8;
-                        mainMenu = true;
-                        String chatId = message.getChatId().toString();
-                        sendMainMenu(chatId);
-                        getMainMenu(update);
-
-                    } else {
-                        String chatId = message.getChatId().toString();
-                        sendResponse(chatId, "invalide choice. typ /yes to back Main menu, /no to continue /quit to close bot");
-                    }
-
                 }
-
 
             }
         }
