@@ -42,19 +42,19 @@ public class DatabaseManager {
 
     public static void insertInitialData() {
         String sql = "INSERT INTO trivia_questions (question, answer, category, options) VALUES "
-                + "('What is the capital of France?', 'Paris', 'Geography', 'Paris,Lyon,Marseille,Bordeaux'),"
-                + "('Who wrote \"To Kill a Mockingbird\"?', 'Harper Lee', 'Literature', 'Harper Lee,Mark Twain,Ernest Hemingway,F. Scott Fitzgerald'),"
+                + "('What is the capital of France?', 'Paris', 'Geography', 'Lyon,Paris,Marseille,Bordeaux'),"
+                + "('Who wrote \"To Kill a Mockingbird\"?', 'Harper Lee', 'Literature', 'Mark Twain,Ernest Hemingway,F. Scott Fitzgerald,Harper Lee'),"
                 + "('What is the tallest mountain in the world?', 'Mount Everest', 'Geography', 'Mount Everest,K2,Kangchenjunga,Lhotse'),"
                 + "('Who developed the theory of relativity?', 'Albert Einstein', 'Science', 'Albert Einstein,Isaac Newton,Nikola Tesla,Galileo Galilei'),"
                 + "('Who painted the Mona Lisa?', 'Leonardo da Vinci', 'Art', 'Leonardo da Vinci,Michelangelo,Raphael,Donatello'),"
                 + "('What is the smallest prime number?', '2', 'Mathematics', '2,3,5,7'),"
                 + "('What element does \"O\" represent on the periodic table?', 'Oxygen', 'Science', 'Oxygen,Gold,Silver,Iron'),"
-                + "('Who is the author of \"Pride and Prejudice\"?', 'Jane Austen', 'Literature', 'Jane Austen,Charles Dickens,Emily Bronte,George Eliot'),"
-                + "('What is the largest planet in our solar system?', 'Jupiter', 'Science', 'Jupiter,Saturn,Mars,Venus'),"
-                + "('Who discovered penicillin?', 'Alexander Fleming', 'Science', 'Alexander Fleming,Marie Curie,Louis Pasteur,Joseph Lister'),"
-                + "('What is the chemical symbol for water?', 'H2O', 'Science', 'H2O,CO2,CH4,NaCl'),"
-                + "('What is the currency of Japan?', 'Yen', 'Geography', 'Yen,Dollar,Euro,Pound'),"
-                + "('Who is the Greek god of thunder?', 'Zeus', 'Mythology', 'Zeus,Poseidon,Hades,Hera');";
+                + "('Who is the author of \"Pride and Prejudice\"?', 'Jane Austen', 'Literature', 'Charles Dickens,Jane Austen,Emily Bronte,George Eliot'),"
+                + "('What is the largest planet in our solar system?', 'Jupiter', 'Science', 'Saturn,Mars, Jupiter,Venus'),"
+                + "('Who discovered penicillin?', 'Alexander Fleming', 'Science', 'Marie Curie,Louis Pasteur,Alexander Fleming,Joseph Lister'),"
+                + "('What is the chemical symbol for water?', 'H2O', 'Science', 'CO2,CH4,NaCl,H2O'),"
+                + "('What is the currency of Japan?', 'Yen', 'Geography', 'Dollar,Yen,Euro,Pound'),"
+                + "('Who is the Greek god of thunder?', 'Zeus', 'Mythology', 'Poseidon,Hades,Zeus,Hera');";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
